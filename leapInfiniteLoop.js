@@ -13,6 +13,9 @@ Leap.loop(controllerOptions, function(frame)
         //randy = Math.floor(Math.random()*10) - 1;
         //circle(x + randx, y + randy, 50);
         for(var h = 0; h < frame.hands.length; h++){
+            if (frame.hands.length == 1){
+                var hand = frame.hands[0];
+            }
             var hand = frame.hands[h];
         }
         console.log(frame.hands);
@@ -20,5 +23,6 @@ Leap.loop(controllerOptions, function(frame)
         //i+=1;
 
     });x
+
 
 
