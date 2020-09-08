@@ -3,6 +3,10 @@ var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 var randx;
 var randy;
+var rawXMin = 250;
+var rawXMax = -250;
+var rawYMin = 250;
+var rawYMax = -250;
 
 Leap.loop(controllerOptions, function(frame){
     clear();
@@ -25,11 +29,34 @@ function HandleHand(hand){
 }
 
 function handleFinger(finger){
-        x = finger.TipPosition.[0];
-        y = finger.TipPosition.[1];
-        z = finger.TipPosition[2];
-    }
+        var x;
+        var y;
+        var z;
+        [x, y, z] = finger.tipPosition;
+        
+        if (x < rawXMin){
+            rawXMin = x;
+            console.log("rawXMin:" + rawXMin);
+        }
+
+        if (x < rawXMax){
+            rawXMax = x;
+            console.log("rawXMax:" + rawXMax);
+        }
+
+        if (y < rawYMin){
+        rawYMin = y;
+        console.log("rawYMin:" + rawYMin);
+        }
+
+        if (x < rawXMax){
+            rawXMax = x;
+            console.log("rawXMax:" + rawXMax);
+        }
+
+        if (y < rawYMax){
+            rawYMax = Y;
+            console.log("rawYMax:" + rawYMax);
+        }
 
 }
-
-
