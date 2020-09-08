@@ -1,62 +1,59 @@
 var controllerOptions = {};
-var x = window.innerWidth/2;
-var y = window.innerHeight/2;
 var randx;
 var randy;
-var rawXMin = 250;
-var rawXMax = -250;
-var rawYMin = 250;
-var rawYMax = -250;
+var x = window.innerWidth/2;
+var y = window.innerHeight/2;
+var rawXMin = 650;
+var rawXMax = -650;
+var rawYMin = 650;
+var rawYMax = -650;
 
 Leap.loop(controllerOptions, function(frame){
     clear();
-    randx = Math.floor(Math.random()*10) - 1;
-    randy = Math.floor(Math.random()*10) - 1;
-    circle(x + randx, y + randy, 50);
+    HandleFrame(frame);
 });
 
 function HandleFrame(frame){
-    var hand;
     if (frame.hands.length == 1){
-        hand = frame.hands[0];
+        var hand = frame.hands[0];
         HandleHand(hand);
     }
 }
 
-function HandleHand(hand){
+function HandleHand(hand) {
     var finger;
     HandleFinger(hand.indexFinger);
 }
 
-function handleFinger(finger){
-        var x;
-        var y;
-        var z;
-        [x, y, z] = finger.tipPosition;
-        
-        if (x < rawXMin){
-            rawXMin = x;
-            console.log("rawXMin:" + rawXMin);
-        }
+function HandleFinger(finger) {
+    var x;
+    var y;
+    var z;
+    [x, y, z] = finger.tipPosition;
 
-        if (x < rawXMax){
-            rawXMax = x;
-            console.log("rawXMax:" + rawXMax);
-        }
-
-        if (y < rawYMin){
-        rawYMin = y;
+    if (x < rawXMin) {
+        rawXMin = x;
         console.log("rawYMin:" + rawYMin);
-        }
+    }
 
-        if (x < rawXMax){
-            rawXMax = x;
-            console.log("rawXMax:" + rawXMax);
-        }
+    if (x > rawXMax) {
+        rawXMax = x;
+        console.log("rawyMax:" + rawYMax);
+    }
 
-        if (y < rawYMax){
-            rawYMax = Y;
-            console.log("rawYMax:" + rawYMax);
-        }
+    if (y < rawYMin) {
+        rawYMin = y;
+        console.log("rawXMin:" + rawXMin);
+    }
+
+    if (y > rawYMax) {
+        rawYMax = y;
+        console.log("rawXMax:" + rawXMax);
+    }
+
+
+    var windowX  = ((x - rawXMin)/(rawXMax - rawXMin)) * window.innerWidth ;
+    var windowY  = ((y - rawYMin)/(rawYMax - rawYMin)) * window.innerHeight;
+    circle(windowX, window.innerHeight - windowY, 100);
 
 }
