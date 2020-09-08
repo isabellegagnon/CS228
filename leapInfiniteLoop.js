@@ -1,28 +1,35 @@
 var controllerOptions = {};
-//var i = 0;
 var x = window.innerWidth/2;
 var y = window.innerHeight/2;
-
 var randx;
 var randy;
 
-Leap.loop(controllerOptions, function(frame)
-    {
-       //clear();
-        //randx = Math.floor(Math.random()*10) - 1;
-        //randy = Math.floor(Math.random()*10) - 1;
-        //circle(x + randx, y + randy, 50);
-        for(var h = 0; h < frame.hands.length; h++){
-            if (frame.hands.length == 1){
-                var hand = frame.hands[0];
-            }
-            var hand = frame.hands[h];
-        }
-        console.log(frame.hands);
-        //console.log(i);
-        //i+=1;
+Leap.loop(controllerOptions, function(frame){
+    clear();
+    randx = Math.floor(Math.random()*10) - 1;
+    randy = Math.floor(Math.random()*10) - 1;
+    circle(x + randx, y + randy, 50);
+});
 
-    });x
+function HandleFrame(frame){
+    var hand;
+    if (frame.hands.length == 1){
+        hand = frame.hands[0];
+        HandleHand(hand);
+    }
+}
 
+function HandleHand(hand){
+    var finger;
+    HandleFinger(hand.indexFinger);
+}
+
+function handleFinger(finger){
+        x = finger.TipPosition.[0];
+        y = finger.TipPosition.[1];
+        z = finger.TipPosition[2];
+    }
+
+}
 
 
