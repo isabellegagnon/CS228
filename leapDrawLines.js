@@ -14,6 +14,7 @@ Leap.loop(controllerOptions, function(frame){
 function HandleFrame(frame){
     if (frame.hands.length == 1){
         var hand = frame.hands[0];
+        var fingers = hand.fingers;
         HandleHand(hand);
     }
 }
@@ -33,34 +34,66 @@ function HandleFinger(finger) {
 }
 
 function HandleBone(bone){
-  var tipPosition;
-  var basePosition;
-  var x, y;
+    xt = bone.nextJoint[0];
+    zt = bone.nextJoint[1];
+    yt = bone.nextJoint[2];
 
-  basePosition = bone.prevJoint;
-  tipPosition = bone.nextJoint;
-  x = tipPosition[0];
-  y = tipPosition[1];
+    xb = bone.prevJoint[0];
+    zb = bone.prevJoint[1];
+    yb = bone.prevJoint[2];
 
-    if (x < rawXMin) {
+    [xt,zt] = TransformCoordinates(xt,zt);
+    [xb,zb] = TransformCoordinates(xb,zb);
+
+    zt = -zt + (window.innerHeight);
+    zb = -zb + (window.innerHeight);
+
+    if (bone.type == 0) {
+        strokeWeight(10);
+        stroke(24);
+        line(xt,zt,xb,zb);
+    }
+
+    if (bone.type == 1){
+        strokeWeight(9);
+        stroke(24);
+        line(xt,zt,xb,zb);
+    }
+    if (bone.type == 2){
+        strokeWeight(8);
+        stroke(24);
+        line(xt,zt,xb,zb);
+    }
+
+    else if (bone.type == 3){
+        strokeWeight(7);
+        stroke(24);
+        line(xt,zt,xb,zb);
+    }
+}
+
+function TransformCoordinates(x,z){
+    if ( x < rawXMin){
         rawXMin = x;
     }
 
-    if (x > rawXMax) {
+    if (x > rawXMax){
         rawXMax = x;
     }
 
-    if (y < rawYMin) {
-        rawYMin = y;
+    if (z < rawYMin){
+        rawYMin = z;
     }
 
-    if (y > rawYMax) {
-        rawYMax = y;
+    if (z > rawYMax){
+        rawYMax = z;
     }
 
-
-    var windowX  = ((x - rawXMin)/(rawXMax - rawXMin)) * window.innerWidth ;
-    var windowY  = ((y - rawYMin)/(rawYMax - rawYMin)) * window.innerHeight;
-    circle(windowX, window.innerHeight - windowY, 100);
+    previousXRange = (rawXMax - rawXMin);
+    previousYRange = (rawYMax - rawYMin);
+    var windowX  = (((x - rawXMin) * window.innerWidth) / previousXRange) + 0;
+    var windowY  = (((z - rawYMin) * window.innerHeight) / previousYRange) + 0;
+    return[windowX, windowY]
+    //circle(windowX, window.innerHeight - windowY, 100);
 
 }
