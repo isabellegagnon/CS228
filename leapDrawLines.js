@@ -1,6 +1,4 @@
 var controllerOptions = {};
-var randx;
-var randy;
 var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 var rawXMin = 650;
@@ -20,35 +18,44 @@ function HandleFrame(frame){
     }
 }
 
-function HandleHand(hand) {
-    var finger;
-    HandleFinger(hand.indexFinger);
+function HandleHand(hand){
+    var fingers = hand.fingers;
+    for (i=0; i<fingers.length; i++){
+        HandleFinger(fingers[i])
+    }
 }
 
 function HandleFinger(finger) {
-    var x;
-    var y;
-    var z;
-    [x, y, z] = finger.tipPosition;
+    var bones = finger.bones;
+    for (var i = 0; i < bones.length; i++) {
+        HandleBone(finger.bones[i]);
+    }
+}
+
+function HandleBone(bone){
+  var tipPosition;
+  var basePosition;
+  var x, y;
+
+  basePosition = bone.prevJoint;
+  tipPosition = bone.nextJoint;
+  x = tipPosition[0];
+  y = tipPosition[1];
 
     if (x < rawXMin) {
         rawXMin = x;
-        console.log("rawYMin:" + rawYMin);
     }
 
     if (x > rawXMax) {
         rawXMax = x;
-        console.log("rawyMax:" + rawYMax);
     }
 
     if (y < rawYMin) {
         rawYMin = y;
-        console.log("rawXMin:" + rawXMin);
     }
 
     if (y > rawYMax) {
         rawYMax = y;
-        console.log("rawXMax:" + rawXMax);
     }
 
 
