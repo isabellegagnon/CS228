@@ -22,7 +22,8 @@ function HandleFrame(frame){
 
 function HandleHand(hand) {
     var finger;
-    HandleFinger(hand.indexFinger);
+    for (i=0; i<fingers.length; i++){
+        HandleFinger(fingers[i])
 }
 
 function HandleFinger(finger) {
